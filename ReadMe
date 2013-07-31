@@ -9,7 +9,7 @@ android
 and install packages manually
 
 to create an emulator
-android -s create avd -f -n Android_4.3 -t android-16 --sdcard 64M
+android -s create avd -f -n Android_4.3 -t android-18 --sdcard 64M
 
 and to run emulator -avd Android_4.3
 
