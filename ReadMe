@@ -1,0 +1,20 @@
+to install java and ant:
+sudo apt-get -y install default-jdk ant
+
+to install all other stuff
+ruboto setup --yes
+
+if things go wrong and some packages weren't able to beinstalled, run
+android
+and install packages manually
+
+to create an emulator
+android -s create avd -f -n Android_4.3 -t android-16 --sdcard 64M
+
+and to run emulator -avd Android_4.3
+
+example of project generation
+ruboto gen app --package org.ruboto.example.quick_start
+
+to deploy app to a device / emulator:
+rake install start
