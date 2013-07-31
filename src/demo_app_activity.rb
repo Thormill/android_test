@@ -10,7 +10,7 @@ class Player
   def initialize(window)
     @image = Gosu::Image.new(window, Ruboto::R::drawable::star_fighter, false)
     @beep = Gosu::Sample.new(window, Ruboto::R::raw::beep)
-    @x = @y = @vel_x = @vel_y = @angle = 0.0
+    @x = @y = @to_x = @to_y = @angle = 0.0
     @score = 0
   end
 
@@ -20,6 +20,21 @@ class Player
 
   def draw
     @image.draw_rot(@x, @y, ZOrder::Player, @angle)
+  end
+
+  def move(x, y)
+    @to_x, @to_y = x, y
+  end
+
+  def movement_animation
+    angle_x = Gosu::angle(@x, @to_x)
+    angle_y = Gosu::angle(@y, @to_y)
+
+    dx += Gosu::offset_x(angle_x, 0.5)
+    dy += Gosu::offset_y(angle_y, 0.5)
+
+    @x += dx
+    @y += dy
   end
 
   def collect_stars(stars)
@@ -73,6 +88,7 @@ class GameWindow < Gosu::Window
 
   def update
     @player.collect_stars(@stars)
+    @player.movement_animation
     #Normally 25 stars
     if rand(100) < 4 and @stars.size < 5 then
       @stars.push(Star.new(@star_anim))
@@ -80,7 +96,7 @@ class GameWindow < Gosu::Window
   end
 
   def touch_moved(touch)
-    @player.warp(touch.x, touch.y)
+    @player.move(touch.x, touch.y)
   end
 
   def draw
