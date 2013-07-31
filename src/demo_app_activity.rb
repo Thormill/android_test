@@ -27,14 +27,18 @@ class Player
   end
 
   def movement_animation
-    angle_x = Gosu::angle(@x, @to_x)
-    angle_y = Gosu::angle(@y, @to_y)
+    unless Gosu::distance(@x, @y, @to_x, @to_y) < 35
+      angle_x = Gosu::angle(@x, @to_x)
+      angle_y = Gosu::angle(@y, @to_y)
 
-    dx += Gosu::offset_x(angle_x, 0.5)
-    dy += Gosu::offset_y(angle_y, 0.5)
+      dx += Gosu::offset_x(angle_x, @to_x)
+      dy += Gosu::offset_y(angle_y, @to_y)
 
-    @x += dx
-    @y += dy
+      p "dx: #{dx}, dy: #{dy}, a_x: #{angle_x}, a_y: #{angle_y}"
+      @font.draw("dx: #{dx}, dy: #{dy}, a_x: #{angle_x}, a_y: #{angle_y}", 10, 30, ZOrder::UI, 1.0, 1.0, 0xffffff00)
+    end
+    # @x += dx
+    # @y += dy
   end
 
   def collect_stars(stars)
@@ -73,7 +77,7 @@ end
 class GameWindow < Gosu::Window
   def initialize
     super(640, 480, false)
-    self.caption = "Gosu Tutorial Game"
+    self.caption = "StarKiller"
 
     @background_image = Gosu::Image.new(self, Ruboto::R::drawable::space, true)
 
@@ -133,5 +137,3 @@ require 'ruboto/widget'
 require 'ruboto/util/toast'
 
 ruboto_import_widgets :Button, :LinearLayout, :TextView
-
-# http://xkcd.com/378/
